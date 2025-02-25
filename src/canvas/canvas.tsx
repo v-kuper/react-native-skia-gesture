@@ -17,12 +17,14 @@ import type { CanvasProps } from '@shopify/react-native-skia';
 type TouchableCanvasProps = CanvasProps & {
   panGesture?: PanGesture;
   timeoutBeforeCollectingRefs?: number; // default 100
+  updateKey?: any;
 };
 
 const Canvas: React.FC<TouchableCanvasProps> = ({
   children,
   panGesture = Gesture.Pan(),
   timeoutBeforeCollectingRefs = 100,
+  updateKey,
   ...props
 }) => {
   // Instead of value, provide a subscribe method and reload the refs
@@ -48,7 +50,7 @@ const Canvas: React.FC<TouchableCanvasProps> = ({
       clearTimeout(ref.current);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [timeoutBeforeCollectingRefs]);
+  }, [timeoutBeforeCollectingRefs, touchableRefs.value, updateKey]);
 
   const mainGesture = panGesture
     .onBegin((event) => {
